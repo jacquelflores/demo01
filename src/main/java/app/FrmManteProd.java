@@ -145,6 +145,22 @@ public class FrmManteProd extends JFrame {
 		cboProvedor.setBounds(280, 103, 86, 22);
 		contentPane.add(cboProvedor);
 
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				buscarProducto();
+
+			}
+
+		});
+
+		btnBuscar.setBounds(324, 63, 89, 23);
+		contentPane.add(btnBuscar);
+
 		llenaCombo();
 	}
 
@@ -207,12 +223,35 @@ public class FrmManteProd extends JFrame {
 			txtSalida.append("Codigo.... : " + p.getCodigo() + "\n");
 			txtSalida.append("Nombre del Producto ... : " + p.getDescripcion() + "\n");
 			txtSalida.append("Precio... : " + p.getPrecio() + "\n");
+			txtSalida.append("Stock....: " + p.getStock() + "\n");
 			txtSalida.append("Categoria.... : " + p.getIdcategoria() + "\n");
 			txtSalida.append("Nombre de la Categoria.... : " + p.getCategorias().getDescripcion() + "\n");
 			txtSalida.append("Proveedor... : " + p.getIdprovedor() + "\n");
 			txtSalida.append("Nombre del Proveedor : " + p.getProveedor().getNombre_rs() + "\n");
 			txtSalida.append("********************************************\n");
 		}
+
+	}
+
+	// BUSCAR
+
+	void buscarProducto() {
+
+		EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("jpa_sesion01");
+
+		EntityManager em = fabrica.createEntityManager();
+
+		Productos p = em.find(Productos.class, txtCódigo.getText());
+
+		if (p != null) {
+		
+			txtDescripcion.setText(p.getDescripcion());
+			
+		}else
+
+			txtSalida.append("Codigo no Existe");
+
+		em.close();
 
 	}
 
